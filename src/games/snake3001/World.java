@@ -1,4 +1,4 @@
-package games.snake3000;
+package games.snake3001;
 
 import java.util.Random;
 import java.io.File;
@@ -31,7 +31,7 @@ public class World extends AppWorld {
 	private ArrayList<Snake> snakes;
 	private ArrayList<Snake> morts;
 
-	public final static String GAME_FOLDER_NAME="snake3000";
+	public final static String GAME_FOLDER_NAME="snake3001";
 	public final static String DIRECTORY_SOUNDS="musics"+File.separator+GAME_FOLDER_NAME+File.separator;
 	public final static String DIRECTORY_MUSICS="musics"+File.separator+GAME_FOLDER_NAME+File.separator;
 	public final static String DIRECTORY_IMAGES="images"+File.separator+GAME_FOLDER_NAME+File.separator;
@@ -88,7 +88,7 @@ public class World extends AppWorld {
 
 		g.setFont(Font);
 		g.setColor(Color.black);
-		g.drawString("SNAKE 3000 ! ",longueur-widthBandeau+20,20);
+		g.drawString("SNAKE 3001 ! ",longueur-widthBandeau+20,20);
 
 		g.setColor(new Color(150,150,150));
 		g.fillRect(longueur-widthBandeau+6,60,widthBandeau,5);

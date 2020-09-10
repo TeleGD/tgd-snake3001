@@ -1,4 +1,4 @@
-package games.snake3000;
+package games.snake3001;
 
 import java.util.ArrayList;
 
