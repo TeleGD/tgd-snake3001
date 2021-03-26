@@ -7,6 +7,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
+import app.AppLoader;
+
 public class Bonus {
 
 	private Point pt;
@@ -63,13 +65,7 @@ public class Bonus {
 		this.pt=pt;
 		this.type = bonus;
 		this.w=world;
-		try{
-			this.imageBonus = new Image(imagePath());
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-
+		this.imageBonus = AppLoader.loadPicture(imagePath());
 		this.rayon = rayon;
 	}
 
@@ -80,7 +76,7 @@ public class Bonus {
 			s.grandir();
 			s.grandir();
 			s.grandir();
-			World.sonMartien.play();
+			World.sonMartien.playAsSoundEffect(1f, .3f, false);
 			s.GScore(100);
 			break;
 		case bRetrecis:
@@ -90,31 +86,31 @@ public class Bonus {
 				s.retrecir();
 			if(s.body.size() >= 1)
 				s.retrecir();
-			World.sonMagic.play();
+			World.sonMagic.playAsSoundEffect(1f, .3f, false);
 			s.GScore(200);
 			break;
 		case bRapide:
 			s.plusRapide();
-			World.sonSncf.play();
+			World.sonSncf.playAsSoundEffect(1f, .3f, false);
 			s.GScore(500);
 			break;
 		case bLent:
 			s.plusLent();
-			World.sonCheval.play();
+			World.sonCheval.playAsSoundEffect(1f, .3f, false);
 			s.GScore(50);
 			break;
 		case bMort:
 			s.meurt();
 			s.GScore(1500);
-			World.sonChute.play();
+			World.sonChute.playAsSoundEffect(1f, .3f, false);
 		break;
 		case bInverseMalus:
 			s.inverse = !s.inverse;
-			World.sonEclair.play();
+			World.sonEclair.playAsSoundEffect(1f, .3f, false);
 			s.GScore(250);
 			break;
 		case bRemis:
-			World.sonPerdu.play();
+			World.sonPerdu.playAsSoundEffect(1f, .3f, false);
 			s.GScore(2000);
 			s.invincible = 30;
 			for(int i=-1;i<1;i++)
@@ -124,7 +120,7 @@ public class Bonus {
 		case bInvincible:
 			s.invincible = 300;
 			s.GScore(100);
-			World.sonMouette.play();
+			World.sonMouette.playAsSoundEffect(1f, .3f, false);
 		break;
 		case bInverseBonus:
 			break;

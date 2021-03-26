@@ -1,16 +1,13 @@
 package games.snake3001;
 
 import java.util.Random;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Music;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -31,37 +28,34 @@ public class World extends AppWorld {
 	private ArrayList<Snake> snakes;
 	private ArrayList<Snake> morts;
 
-	public final static String GAME_FOLDER_NAME="snake3001";
-	public final static String DIRECTORY_SOUNDS="musics"+File.separator+GAME_FOLDER_NAME+File.separator;
-	public final static String DIRECTORY_MUSICS="musics"+File.separator+GAME_FOLDER_NAME+File.separator;
-	public final static String DIRECTORY_IMAGES="images"+File.separator+GAME_FOLDER_NAME+File.separator;
+	public final static String DIRECTORY_SOUNDS="/sounds/snake3001/";
+	public final static String DIRECTORY_MUSICS="/musics/snake3001/";
+	public final static String DIRECTORY_IMAGES="/images/snake3001/";
 	public static final TrueTypeFont Font = AppLoader.loadFont("/fonts/vt323.ttf", AppFont.BOLD, 20);
 
 	private boolean jeuTermine;
 
-	static Sound sonMouette;
-	static Sound sonSncf;
-	static Sound sonChute;
-	static Sound sonCheval;
-	static Sound sonEclair;
-	static Sound sonMagic;
-	static Sound sonMartien;
-	static Sound sonPerdu;
-	private static Music soundMusicBackground;
+	static Audio sonMouette;
+	static Audio sonSncf;
+	static Audio sonChute;
+	static Audio sonCheval;
+	static Audio sonEclair;
+	static Audio sonMagic;
+	static Audio sonMartien;
+	static Audio sonPerdu;
+	private static Audio soundMusicBackground;
+	private float soundMusicBackgroundPos;
 
 	static {
-		try {
-			sonMouette = new Sound(DIRECTORY_SOUNDS+"seagulls-chatting.ogg");
-			sonSncf = new Sound(DIRECTORY_SOUNDS+"0564.ogg");
-			sonChute = new Sound(DIRECTORY_SOUNDS+"0477.ogg");
-			sonCheval = new Sound(DIRECTORY_SOUNDS+"horse-whinnies.ogg");
-			sonEclair = new Sound(DIRECTORY_SOUNDS+"ChargedLightningAttack8-Bit.ogg");
-			sonMagic = new Sound(DIRECTORY_SOUNDS+"FreezeMagic.ogg");
-			sonMartien = new Sound(DIRECTORY_SOUNDS+"martian-gun.ogg");
-			sonPerdu = new Sound(DIRECTORY_SOUNDS+"perdu.ogg");
-			soundMusicBackground=new Music(DIRECTORY_SOUNDS+"hymne_russe.ogg");
-		} catch (SlickException e) {
-		}
+		sonMouette = AppLoader.loadAudio(DIRECTORY_SOUNDS+"seagulls-chatting.ogg");
+		sonSncf = AppLoader.loadAudio(DIRECTORY_SOUNDS+"0564.ogg");
+		sonChute = AppLoader.loadAudio(DIRECTORY_SOUNDS+"0477.ogg");
+		sonCheval = AppLoader.loadAudio(DIRECTORY_SOUNDS+"horse-whinnies.ogg");
+		sonEclair = AppLoader.loadAudio(DIRECTORY_SOUNDS+"ChargedLightningAttack8-Bit.ogg");
+		sonMagic = AppLoader.loadAudio(DIRECTORY_SOUNDS+"FreezeMagic.ogg");
+		sonMartien = AppLoader.loadAudio(DIRECTORY_SOUNDS+"martian-gun.ogg");
+		sonPerdu = AppLoader.loadAudio(DIRECTORY_SOUNDS+"perdu.ogg");
+		soundMusicBackground=AppLoader.loadAudio(DIRECTORY_MUSICS+"hymne_russe.ogg");
 	}
 
 	public World (int ID) {
@@ -241,17 +235,24 @@ public class World extends AppWorld {
 		}
 		this.bonus = new ArrayList <Bonus> ();
 		this.jeuTermine=false;
-		soundMusicBackground.loop(1,0.3f);
+		soundMusicBackground.playAsMusic(1f, .3f, true);
 	}
 
 	@Override
-	public void pause (GameContainer container, StateBasedGame game) {
-		soundMusicBackground.pause ();
+	public void pause(GameContainer container, StateBasedGame game) {
+		this.soundMusicBackgroundPos = soundMusicBackground.getPosition();
+		soundMusicBackground.stop();
 	}
 
 	@Override
-	public void resume (GameContainer container, StateBasedGame game) {
-		soundMusicBackground.resume ();
+	public void resume(GameContainer container, StateBasedGame game) {
+		soundMusicBackground.playAsMusic(1, .3f, true);
+		soundMusicBackground.setPosition(this.soundMusicBackgroundPos);
+	}
+
+	@Override
+	public void stop(GameContainer container, StateBasedGame game) {
+		soundMusicBackground.stop();
 	}
 
 }
